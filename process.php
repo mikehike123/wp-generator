@@ -379,13 +379,16 @@ EOD;
 
     // Creating plugin main file
     file_put_contents($admin_dir . 'views/' . $data['crud_name_singular'] . '-single.php', $crud_single_view_file);
-
-    zipDir($plugin_dir, $data['plugin_name_dash'] . '.zip', $download);
-
+    //echo $plugin_dir.$data['plugin_name_dash'] . '.zip';
+    
     // Deleting existing plugin or module files
     if (file_exists($data['plugin_name_dash'] . '.zip')) {
         unlink($data['plugin_name_dash'] . '.zip');
     }
+    
+    zipDir($plugin_dir, $data['plugin_name_dash'] . '.zip', $download);
+    die();
+    
 
     $dir = dirname(__FILE__) . '/plugins/';
 
@@ -404,6 +407,7 @@ EOD;
 function zipDir($source, $destination, $download = false)
 {
     if (!extension_loaded('zip') || !file_exists($source)) {
+        echo "\n\n zip extension not loaded!!!!\n\n";
         return false;
     }
 
@@ -413,7 +417,7 @@ function zipDir($source, $destination, $download = false)
     }
 
     $source = str_replace('\\', '/', realpath($source));
-
+    //echo $source;
     if (is_dir($source) === true) {
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source), RecursiveIteratorIterator::SELF_FIRST);
 
